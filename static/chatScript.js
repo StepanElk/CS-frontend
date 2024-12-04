@@ -31,9 +31,12 @@ document.addEventListener("DOMContentLoaded",async () => {
             .build();
             
 
-    connection.on("RecieveMessage" , (username , message , isMyMessage) =>{
+    connection.on("RecieveMessage" , (username , message , senderUuid) =>{
         console.log(username);
         console.log(message);
+        console.log(senderUuid);
+
+        drawMessage(username , message , senderUuid)
     });
     try{
         await connection.start();
@@ -47,17 +50,49 @@ document.addEventListener("DOMContentLoaded",async () => {
 });
 
 
-function drawMessage(username , message , isMyMessage) {
+function drawMessage(username , message , senderUuid) {
     let messageDiv = document.createElement('div');
-    let messClass = isMyMessage ? "flex items-start justify-end space-x-2" : "flex items-start space-x-2";
-    messageDiv.classList.add(messClass);
+    let isMyMessage = senderUuid == uuid;
+    let messClass = isMyMessage ? ["flex" ,"items-start" ,"justify-end" ,"space-x-2"] : ["flex","items-start", "space-x-2"];
+    messageDiv.classList.add(...messClass);
+    let htmlContent = "";
 
     if(isMyMessage){
-
+        htmlContent = 
+           `<div class="flex flex-col items-end">
+              <div class="bg-blue-500 p-3 rounded-lg rounded-tr-none shadow-sm max-w-xs lg:max-w-md">
+                
+                <p class="text-sm text-white">${message}</p>
+              </div>
+              <span class="text-xs text-gray-500 mt-1">10:24 AM</span>
+            </div>
+            <img src="https://via.placeholder.com/40" alt="My avatar" class="w-8 h-8 rounded-full"> `;
     }
     else{
-
+        if(senderUuid == "admin"){
+            messageDiv.classList.add("justify-center");
+            htmlContent = `
+            <div class="flex flex-col items-end">
+              <div class="bg-gray-500 p-3 rounded-lg  shadow-sm max-w-xs lg:max-w-md">
+                <p class="text-sm text-white">${message}</p>
+              </div>
+            </div>`;
+        }
+        else {
+            htmlContent = `<img src="https://via.placeholder.com/40" alt="User avatar" class="w-8 h-8 rounded-full">
+                            <div class="flex flex-col">
+                            <div class="bg-white p-3 rounded-lg rounded-tl-none shadow-sm max-w-xs lg:max-w-md text-left">
+                                <span class="text-sm text-black font-bold mt-1">${username}</span>
+                                <p class="text-sm text-gray-800">${message}</p>
+                            </div>
+                            <span class="text-xs text-gray-500 mt-1">10:23 AM</span>
+                            </div>`
+        }
     }
+    
+    messageDiv.innerHTML = htmlContent;
+    document.getElementById("chatMessages").append(messageDiv);
+    messageDiv.scrollIntoView(false);
 }
     
 
@@ -83,8 +118,15 @@ async function SendMessage(message){
 }
 
 
-function clickSendMessage(){
+function SendMessageValue(){
     let messageInput = document.getElementById('messageInput');
-    SendMessage(messageInput.value);
-    messageInput.value = '';
+    if(messageInput.value.trim() != ""){
+        SendMessage(messageInput.value);
+        messageInput.value = '';
+    }
+}
+function keySendMessage( event){
+    if (event.keyCode === 13) {
+        SendMessageValue();
+    }
 }
