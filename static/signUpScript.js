@@ -2,13 +2,21 @@ let username = '';
 let connection = null;
 let uuid = null;
 
+var currentTab = 0;
+
+
 async function login(form , event){
     event.preventDefault(); 
     const formData = new FormData(form);
     let password = formData.get('password') ;
-    username = formData.get('username') ;
+    let passwordCopy = formData.get('passwordCopy') ;
+    username = formData.get('codeword') ;
 
+    if(password != passwordCopy){
+        document.getElementById("passwordCopyError").style.display = "block";
+    }
     
+    //Логика регистрации
     await connection.invoke("CheckUserLogin" ,username, password);
     
 }
@@ -48,12 +56,6 @@ document.addEventListener("DOMContentLoaded",async () => {
               })
             .withAutomaticReconnect()
             .build();
-            
-
-    // connection.on("RecieveMessage" , (username , message) =>{
-    //     console.log(username);
-    //     console.log(message);
-    // });
 
     connection.on("RecieveServerAnswer" , (answer , errorNumber) =>{
         console.log(answer);
@@ -70,3 +72,25 @@ document.addEventListener("DOMContentLoaded",async () => {
         console.log(err);
     }
 });
+
+function moveNextPage(event){
+    event.preventDefault();
+    let form1 = document.getElementById("form-1");
+    let form2 = document.getElementById("form-2");
+
+    form1.style.display = "none";
+    form2.style.display = "block";
+}
+
+function movePrevPage(){
+    let form1 = document.getElementById("form-1");
+    let form2 = document.getElementById("form-2");
+
+    form2.style.display = "none";
+    form1.style.display = "block";
+}
+
+function hideError(prefix){
+    let error = document.getElementById(`${prefix}Error`);
+    error.style.display = "none";
+}

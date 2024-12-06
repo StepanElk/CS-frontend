@@ -67,8 +67,11 @@
                 </svg>
               </button>
             </span>
-            <input type="text" id="messageInput" placeholder="Write your message!" class="w-full focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-md py-3">
-            <div class="absolute right-0 items-center inset-y-0 hidden sm:flex">
+            <div class="flex-auto">
+              <!-- <input type="text" id="messageInput" placeholder="Write your message!" class="w-full pr-5 focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-md py-3"> -->
+              <textarea id="messageInput" style="resize: none" rows="1" class="w-full pr-5 focus:outline-none focus:placeholder-gray-400 text-gray-600 placeholder-gray-600 pl-12 bg-gray-200 rounded-md py-3"></textarea>
+            </div>
+            <div class="right-0 items-center inset-y-0 hidden sm:flex">
               <button type="button" id="sendMessageBtn" onclick="SendMessageValue()"  class="inline-flex items-center justify-center rounded-lg px-4 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none">
                 <!-- <span class="font-bold">Send</span> -->
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-6 w-6 ml-2 transform rotate-90">

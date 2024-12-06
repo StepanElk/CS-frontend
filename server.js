@@ -31,5 +31,9 @@ app.get("/chat", (req, res) => {
     res.sendFile('static/chat.html', { root: '.' })
 });
 
+app.get("/signup", (req, res) => {
+    res.sendFile('static/signUp.html', { root: '.' })
+});
+
 app.listen(port);
 console.log(`Listening on http://localhost:${port}`)

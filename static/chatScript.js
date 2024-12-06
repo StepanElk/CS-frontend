@@ -56,15 +56,15 @@ function drawMessage(username , message , senderUuid) {
     let messClass = isMyMessage ? ["flex" ,"items-start" ,"justify-end" ,"space-x-2"] : ["flex","items-start", "space-x-2"];
     messageDiv.classList.add(...messClass);
     let htmlContent = "";
-
+    let date = new Date();
     if(isMyMessage){
         htmlContent = 
            `<div class="flex flex-col items-end">
               <div class="bg-blue-500 p-3 rounded-lg rounded-tr-none shadow-sm max-w-xs lg:max-w-md">
                 
-                <p class="text-sm text-white">${message}</p>
+                <p class="text-sm text-white break-words">${message}</p>
               </div>
-              <span class="text-xs text-gray-500 mt-1">10:24 AM</span>
+              <span class="text-xs text-gray-500 mt-1">${date.toTimeString().slice(0,5)}</span>
             </div>
             <img src="https://via.placeholder.com/40" alt="My avatar" class="w-8 h-8 rounded-full"> `;
     }
@@ -83,9 +83,9 @@ function drawMessage(username , message , senderUuid) {
                             <div class="flex flex-col">
                             <div class="bg-white p-3 rounded-lg rounded-tl-none shadow-sm max-w-xs lg:max-w-md text-left">
                                 <span class="text-sm text-black font-bold mt-1">${username}</span>
-                                <p class="text-sm text-gray-800">${message}</p>
+                                <p class="text-sm break-words text-gray-800">${message}</p>
                             </div>
-                            <span class="text-xs text-gray-500 mt-1">10:23 AM</span>
+                            <span class="text-xs text-gray-500 mt-1">${date.toTimeString().slice(0,5)}</span>
                             </div>`
         }
     }

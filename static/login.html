@@ -27,18 +27,20 @@
 
                     <form class="space-y-4 md:space-y-6" action="#" id="myForm" onsubmit="login(this,event);">
                         <div>
-                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Логин</label>
-                            <input type="text" name="username" id="email" class="p-3 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+                            <label for="email" id="loginLabel" class="block mb-2 text-s font-medium text-gray-900">Кодовое слово</label>
+                            <input type="text" name="username" onfocus="hideError('login')" id="username" class="p-3 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:text-gray-900 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required="">
+                            <p id="loginError" style="display: none;" class="text-sm font-bold text-red-500">Логин не найден. Проверьте на наличие ошибок</p>
                         </div>
                         <div>
-                            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Чат</label>
-                            <input type="text" name="chatName" id="password"  class=" p-3 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+                            <label for="password" id="passwordLabel" class="block mb-2 text-s font-medium text-gray-900">Пароль</label>
+                            <input id="password" type="password" onfocus="hideError('password')" name="password" class=" p-3 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required="">
+                            <p id="passwordError" style="display: none;" class="text-sm font-bold text-red-500">Неверный пароль</p>
                         </div>
 
                         <button type="submit" class="w-full p-3 text-white bg-gray-700  rounded-lg">Вход</button>
-                        <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+                        <p class="text-sm font-light text-gray-600 dark:text-gray-400">
                             Ещё не присоединились к клубу? 
-                            <a href="#" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Вступить</a>
+                            <a href="signUp.html" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Вступить</a>
                         </p>
                     </form>
                 </div>
