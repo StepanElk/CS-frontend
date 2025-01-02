@@ -7,27 +7,23 @@ async function login(form , event){
     const formData = new FormData(form);
     let password = formData.get('password') ;
     username = formData.get('username') ;
-
     
-    await connection.invoke("CheckUserLogin" ,username, password);
-    
+    await connection.invoke("TryAuthorise" ,username, password , uuid);
 }
 
-async function checkLogin(answer , errorNumber){
-    if(answer){
-        await connection.invoke("LoginUser" ,username,  "baseChatRoom" , uuid);
+async function checkLogin(answer){
+    if(answer == 0){
+        // await connection.invoke("AddToAuthorised" ,username,  "baseChatRoom" , uuid);
         connection.stop();
         location.href = "/chat";
     }
+    else if(answer == 1){
+        let loginError = document.getElementById('loginError');
+        loginError.style.display = "block";
+    }
     else{
-        if(errorNumber == 1){
-            let loginError = document.getElementById('loginError');
-            loginError.style.display = "block";
-        }
-        else{
-            let passwordError = document.getElementById('passwordError');
-            passwordError.style.display = "block";
-        }
+        let passwordError = document.getElementById('passwordError');
+        passwordError.style.display = "block";
     }
 }
 
@@ -48,17 +44,10 @@ document.addEventListener("DOMContentLoaded",async () => {
               })
             .withAutomaticReconnect()
             .build();
-            
 
-    // connection.on("RecieveMessage" , (username , message) =>{
-    //     console.log(username);
-    //     console.log(message);
-    // });
-
-    connection.on("RecieveServerAnswer" , (answer , errorNumber) =>{
+    connection.on("RecieveServerAnswer" , (answer) =>{
         console.log(answer);
-        console.log(errorNumber);
-        checkLogin(answer , errorNumber);
+        checkLogin(answer);
     });
 
     try{

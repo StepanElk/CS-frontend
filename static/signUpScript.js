@@ -7,10 +7,12 @@ var currentTab = 0;
 
 async function login(form , event){
     event.preventDefault(); 
-    const formData = new FormData(form);
-    let password = formData.get('password') ;
-    let passwordCopy = formData.get('passwordCopy') ;
-    username = formData.get('codeword') ;
+    const dataFirst= new FormData(document.getElementById('form-1'));
+    const dataSecond  = new FormData(form);
+
+    let password = dataSecond.get('password') ;
+    let passwordCopy = dataSecond.get('passwordCopy') ;
+    username = dataSecond.get('codeword') ;
 
     if(password != passwordCopy){
         document.getElementById("passwordCopyError").style.display = "block";
@@ -23,7 +25,6 @@ async function login(form , event){
 
 async function checkLogin(answer , errorNumber){
     if(answer){
-        await connection.invoke("LoginUser" ,username,  "baseChatRoom" , uuid);
         connection.stop();
         location.href = "/chat";
     }

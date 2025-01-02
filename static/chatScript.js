@@ -4,7 +4,7 @@ let uuid = null;
 window.addEventListener('beforeunload',async function (event) {
     // Отменяем поведение по умолчанию
     event.preventDefault();
-    await connection.invoke("Disconnect" ,uuid);
+    // await connection.invoke("Disconnect" ,uuid);
     connection.stop();
     this.document.cookie= "";
     // Chrome требует наличия returnValue
