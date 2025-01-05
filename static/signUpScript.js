@@ -1,4 +1,4 @@
-let username = '';
+let codeword = '';
 let connection = null;
 let uuid = null;
 
@@ -10,32 +10,36 @@ async function login(form , event){
     const dataFirst= new FormData(document.getElementById('form-1'));
     const dataSecond  = new FormData(form);
 
+    let name = dataFirst.get('name');
+    let sex = document.querySelector('input[name="sex"]:checked').value;
+    let word = dataFirst.get('word');
     let password = dataSecond.get('password') ;
     let passwordCopy = dataSecond.get('passwordCopy') ;
-    username = dataSecond.get('codeword') ;
+    codeword = dataSecond.get('codeword') ;
+
+    console.log(name , sex, word);
 
     if(password != passwordCopy){
         document.getElementById("passwordCopyError").style.display = "block";
     }
     
     //Логика регистрации
-    await connection.invoke("CheckUserLogin" ,username, password);
+    await connection.invoke("TrySignUp" ,codeword , uuid , name ,word , sex, password);
     
 }
 
-async function checkLogin(answer , errorNumber){
-    if(answer){
+async function checkServerAnswer(answer ){
+    if(answer == 0 ){
         connection.stop();
         location.href = "/chat";
     }
     else{
-        if(errorNumber == 1){
-            let loginError = document.getElementById('loginError');
-            loginError.style.display = "block";
+        if(answer == 1){
+            document.getElementById('codewordError').style.display = "block";
         }
         else{
-            let passwordError = document.getElementById('passwordError');
-            passwordError.style.display = "block";
+            movePrevPage()
+            document.getElementById('wordError').style.display = "block";
         }
     }
 }
@@ -58,10 +62,9 @@ document.addEventListener("DOMContentLoaded",async () => {
             .withAutomaticReconnect()
             .build();
 
-    connection.on("RecieveServerAnswer" , (answer , errorNumber) =>{
+    connection.on("RecieveServerAnswer" , (answer ) =>{
         console.log(answer);
-        console.log(errorNumber);
-        checkLogin(answer , errorNumber);
+        checkServerAnswer(answer);
     });
 
     try{
@@ -89,9 +92,4 @@ function movePrevPage(){
 
     form2.style.display = "none";
     form1.style.display = "block";
-}
-
-function hideError(prefix){
-    let error = document.getElementById(`${prefix}Error`);
-    error.style.display = "none";
 }

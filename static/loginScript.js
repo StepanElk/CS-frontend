@@ -13,7 +13,6 @@ async function login(form , event){
 
 async function checkLogin(answer){
     if(answer == 0){
-        // await connection.invoke("AddToAuthorised" ,username,  "baseChatRoom" , uuid);
         connection.stop();
         location.href = "/chat";
     }

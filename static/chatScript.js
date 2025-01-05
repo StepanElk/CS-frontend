@@ -4,7 +4,6 @@ let uuid = null;
 window.addEventListener('beforeunload',async function (event) {
     // Отменяем поведение по умолчанию
     event.preventDefault();
-    // await connection.invoke("Disconnect" ,uuid);
     connection.stop();
     this.document.cookie= "";
     // Chrome требует наличия returnValue
@@ -31,12 +30,18 @@ document.addEventListener("DOMContentLoaded",async () => {
             .build();
             
 
-    connection.on("RecieveMessage" , (username , message , senderUuid) =>{
-        console.log(username);
-        console.log(message);
-        console.log(senderUuid);
+    connection.on("RecieveMessage" , (json) =>{
+        // console.log(json);
+        let obj  = JSON.parse(json);
+        
+        drawMessage(obj)
+    });
 
-        drawMessage(username , message , senderUuid)
+    connection.on("RecieveChatMessages" , (json) =>{
+        let obj  = JSON.parse(json);
+        for (let mess of obj){
+            drawMessage(mess);
+        }
     });
     try{
         await connection.start();
@@ -50,31 +55,33 @@ document.addEventListener("DOMContentLoaded",async () => {
 });
 
 
-function drawMessage(username , message , senderUuid) {
+function drawMessage(object) {
+    let name = object.UserName;
+    let content = object.Content;
+    let isMine = object.IsMine;
     let messageDiv = document.createElement('div');
-    let isMyMessage = senderUuid == uuid;
-    let messClass = isMyMessage ? ["flex" ,"items-start" ,"justify-end" ,"space-x-2"] : ["flex","items-start", "space-x-2"];
+    let messClass = isMine ? ["flex" ,"items-start" ,"justify-end" ,"space-x-2"] : ["flex","items-start", "space-x-2"];
     messageDiv.classList.add(...messClass);
     let htmlContent = "";
-    let date = new Date();
-    if(isMyMessage){
+    let d = new Date(object.SendDate);
+    if(isMine){
         htmlContent = 
            `<div class="flex flex-col items-end">
               <div class="bg-blue-500 p-3 rounded-lg rounded-tr-none shadow-sm max-w-xs lg:max-w-md">
                 
-                <p class="text-sm text-white break-words">${message}</p>
+                <p class="text-sm text-white break-words">${content}</p>
               </div>
-              <span class="text-xs text-gray-500 mt-1">${date.toTimeString().slice(0,5)}</span>
+              <span class="text-xs text-gray-500 mt-1">${d.toTimeString().slice(0,5)} ${d.toDateString()}</span>
             </div>
             <img src="https://via.placeholder.com/40" alt="My avatar" class="w-8 h-8 rounded-full"> `;
     }
     else{
-        if(senderUuid == "admin"){
+        if(name == "Admin"){
             messageDiv.classList.add("justify-center");
             htmlContent = `
             <div class="flex flex-col items-end">
               <div class="bg-gray-500 p-3 rounded-lg  shadow-sm max-w-xs lg:max-w-md">
-                <p class="text-sm text-white">${message}</p>
+                <p class="text-sm text-white">${content}</p>
               </div>
             </div>`;
         }
@@ -82,10 +89,10 @@ function drawMessage(username , message , senderUuid) {
             htmlContent = `<img src="https://via.placeholder.com/40" alt="User avatar" class="w-8 h-8 rounded-full">
                             <div class="flex flex-col">
                             <div class="bg-white p-3 rounded-lg rounded-tl-none shadow-sm max-w-xs lg:max-w-md text-left">
-                                <span class="text-sm text-black font-bold mt-1">${username}</span>
-                                <p class="text-sm break-words text-gray-800">${message}</p>
+                                <span class="text-sm text-black font-bold mt-1">${name}</span>
+                                <p class="text-sm break-words text-gray-800">${content}</p>
                             </div>
-                            <span class="text-xs text-gray-500 mt-1">${date.toTimeString().slice(0,5)}</span>
+                            <span class="text-xs text-gray-500 mt-1">${d.toTimeString().slice(0,5)} ${d.toDateString()}</span>
                             </div>`
         }
     }
@@ -100,6 +107,7 @@ function drawMessage(username , message , senderUuid) {
 async function JoinChat(){
     try{
         await connection.invoke("JoinChat" , uuid);
+        await connection.invoke("LoadMessages" , uuid);
     }
     catch(err){
         console.log(err);

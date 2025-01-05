@@ -38,11 +38,11 @@
                             <label id="sexLabel" class="block mb-2 text-s font-medium text-gray-900">Пол</label>
                             <div class="flex justify-around">
                                 <div class="flex-1 items-center me-4">
-                                    <input id="inline-radio" type="radio" value="m" name="inline-radio-group" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required="required">
+                                    <input id="sex" type="radio" value="m" name="sex" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" required="required">
                                     <label for="inline-radio" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"> Мужской</label>
                                 </div>
                                 <div class="flex-1 items-center me-4">
-                                    <input id="inline-2-radio" type="radio" value="f" name="inline-radio-group" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                    <input id="sex" type="radio" value="f" name="sex" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                     <label for="inline-2-radio" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300"> Женский</label>
                                 </div>
                             </div>
@@ -62,7 +62,7 @@
                     <form id="form-2"  class="space-y-4 md:space-y-6" style="display: none;" action="#" id="myForm" onsubmit="login(this,event);">
                         <div>
                             <label id="nameLabel" class="block mb-2 text-s font-medium text-gray-900">Придумайте кодовое слово</label>
-                            <input type="text" name="codeword" id="codeword" class="p-3 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:text-gray-900 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required="">
+                            <input type="text" name="codeword" id="codeword"  onfocus="hideError('codeword')" class="p-3 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:text-gray-900 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required="">
                             <p id="codewordError" style="display: none;" class="text-sm font-bold text-red-500">Данный логин уже занят!</p>
                         </div>
                         
