@@ -7,36 +7,106 @@
     <link
         href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
         rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
     <title>Chat</title>
 </head>
-<body>
+<body >
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
     <script  src="chatScript.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+
+<!-- drawer component -->
+<div id="drawer-navigation" class="fixed top-0 left-0 z-40 w-64 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white dark:bg-gray-800" tabindex="-1" aria-labelledby="drawer-navigation-label">
+   <h5 id="drawer-navigation-label" class="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">Создать запись</h5>
+   <button type="button" data-drawer-hide="drawer-navigation" aria-controls="drawer-navigation" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 end-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" >
+       <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+       <span class="sr-only">Close menu</span>
+   </button>
+ <div class="py-4 overflow-y-auto">
+     <ul class="space-y-2 font-medium">
+        <li>
+           <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" data-drawer-target="mero-component" data-drawer-backdrop="false" data-drawer-show="mero-component" aria-controls="mero-component">
+            <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+            </svg>
+              <span class="ms-3">Мероприятие</span>
+           </a>
+        </li>
+        <li>
+           <a href="#" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group" data-drawer-target="train-component" data-drawer-backdrop="false" data-drawer-show="train-component" aria-controls="train-component">
+              <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M14 10.3728L17 3.3728H9L5 13.3728H11L9 21.3728L19 10.3728H14Z"  class="my-path"></path>
+              </svg>
+              <span class="flex-1 ms-3 whitespace-nowrap">Тренировка</span>
+           </a>
+        </li>
+     </ul>
+  </div>
+</div>
+
+<!-- mero component -->
+<div id="mero-component" class=" fixed top-0 left-0 z-40 w-80 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white " tabindex="-1"  aria-labelledby="mero-component-label">
+  <h5 id="mero-component-label" class="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">Новое мероприятие</h5>
+  <button type="button" data-drawer-hide="mero-component" aria-controls="mero-component" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 end-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" >
+      <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+      <span class="sr-only">Close menu</span>
+  </button>
+<div class="py-4 overflow-y-auto">
+  <form class="space-y-4 md:space-y-6" action="#" id="eventForm" >
+    <div>
+        <label class="block mb-2 text-s font-medium text-gray-900">Название</label>
+        <input type="text" name="eventName"   class="p-3 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:text-gray-900 focus:ring-primary-600 focus:border-primary-600 block w-full" required="">
+    </div>
+    <div>
+        <label for="password" id="passwordLabel" class="block mb-2 text-s font-medium text-gray-900">Описание</label>
+        <textarea name="description" style="resize: none" rows="3" class="p-3 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:text-gray-900 focus:ring-primary-600 focus:border-primary-600 block w-full" required=""></textarea>
+    </div>
+    <div>
+      <label for="email" id="loginLabel" class="block mb-2 text-s font-medium text-gray-900">День</label>
+      <input type="date" name="date"  id="username" class="p-3 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:text-gray-900 focus:ring-primary-600 focus:border-primary-600 block w-full" required="">
+    </div>
+    <div>
+      <label for="email" id="loginLabel" class="block mb-2 text-s font-medium text-gray-900">Место</label>
+      <input type="text" name="location"  class="p-3 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:text-gray-900 focus:ring-primary-600 focus:border-primary-600 block w-full" required="">
+    </div>
+    <button type="submit" class="w-full p-3 text-white bg-gray-700  rounded-lg">Отправить</button>
     
-    <aside id="default-sidebar" class="fixed top-0 left-0 z-40  h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
-            <div style="display: block;" class="flex flex-col items-center justify-center  mx-auto md:h-screen lg:py-0">
-              <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                    Создание мероприятия
-                </h1>
+</form>
+ </div>
+</div>
 
-                <form id="form-2"  class="space-y-4 md:space-y-6" action="#" id="myForm" onsubmit="">
-                    <div>
-                        <label id="nameLabel" class="block mb-2 text-s font-medium text-gray-900">Название мероприятия</label>
-                        <input type="text" name="codeword" id="codeword" class="p-3 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:text-gray-900 focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" required="">
-                    </div>
-                    <div>
-                      <label id="nameLabel" class="block mb-2 text-s font-medium text-gray-900">Описание</label>
-                      <textarea type="text" id="default-search" class="block w-full h-40 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-3xl placeholder-gray-400 focus:outline-none resize-none mb-5" placeholder="Message" required=""></textarea>
-                    </div>
-            
-                      <button type="submit" class="w-full p-3 text-white bg-gray-700  rounded-lg">Отправить</button>
-                </form>
-            </div>
-            </div>
-        </aside>
+<!-- train component -->
+<div id="train-component" class=" fixed top-0 left-0 z-40 w-80 h-screen p-4 overflow-y-auto transition-transform -translate-x-full bg-white " tabindex="-1"  aria-labelledby="train-component-label">
+  <h5 id="train-component-label" class="text-base font-semibold text-gray-500 uppercase dark:text-gray-400">Результат тренировки</h5>
+  <button type="button" data-drawer-hide="train-component" aria-controls="train-component" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 end-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" >
+      <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+      <span class="sr-only">Close menu</span>
+  </button>
+<div class="py-4 overflow-y-auto">
+  <form class="space-y-4 md:space-y-6" action="#" id="trainForm" >
+    <div>
+        <label class="block mb-2 text-s font-medium text-gray-900">Название</label>
+        <input type="text" name="trainName"   class="p-3 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:text-gray-900 focus:ring-primary-600 focus:border-primary-600 block w-full" required="">
+    </div>
+    <div>
+        <label for="password" id="passwordLabel" class="block mb-2 text-s font-medium text-gray-900">Описание</label>
+        <textarea name="description" style="resize: none" rows="3" class="p-3 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:text-gray-900 focus:ring-primary-600 focus:border-primary-600 block w-full" required=""></textarea>
+    </div>
+    <div>
+      <label for="email" id="loginLabel" class="block mb-2 text-s font-medium text-gray-900">Длительность в минутах</label>
+      <input type="number" name="duration" min="0"  id="username" class="p-3 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:text-gray-900 focus:ring-primary-600 focus:border-primary-600 block w-full" required="">
+    </div>
+    <div>
+      <label for="email" id="loginLabel" class="block mb-2 text-s font-medium text-gray-900">Калории</label>
+      <input type="number" name="calories"  min="0"  class="p-3 bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:text-gray-900 focus:ring-primary-600 focus:border-primary-600 block w-full" required="">
+    </div>
+    <button type="submit" class="w-full p-3 text-white bg-gray-700  rounded-lg">Отправить</button>
+    
+</form>
+ </div>
+</div>
 
-    <div class="flex flex-col sm:ml-64 h-screen bg-gray-100">
+    <div class="flex flex-col h-screen bg-gray-100">
         <!-- Chat header -->
         <div class="bg-white shadow-md">
           <div class="max-w-3xl mx-auto py-3 px-4 flex items-center justify-between">
@@ -63,7 +133,7 @@
         <!-- Chat input -->
         <div class="bg-white border-t-2 border-gray-200 px-4 py-4 mb-2 sm:mb-0" onkeyup="keySendMessage(event)">
           <div class="relative flex  gap-2 items-center">
-            <span class="left-0  inset-y-0 flex items-center">
+            <span class="left-0  inset-y-0 flex items-center" data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation" aria-controls="drawer-navigation">
               <button type="button" class="inline-flex items-center justify-center bg-blue-500 rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-blue-400 focus:outline-none">
                 
                 <svg width="30px" height="30px" viewBox="0 0 24 24" stroke="white" fill="none" xmlns="http://www.w3.org/2000/svg">
