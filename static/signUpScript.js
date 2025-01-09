@@ -11,6 +11,7 @@ async function login(form , event){
     const dataSecond  = new FormData(form);
 
     let name = dataFirst.get('name');
+    let photo = dataFirst.get('url-photo');
     let sex = document.querySelector('input[name="sex"]:checked').value;
     let word = dataFirst.get('word');
     let password = dataSecond.get('password') ;
@@ -24,7 +25,7 @@ async function login(form , event){
     }
     
     //Логика регистрации
-    await connection.invoke("TrySignUp" ,codeword , uuid , name ,word , sex, password);
+    await connection.invoke("TrySignUp" ,codeword, uuid , name ,word , sex, password , photo);
     
 }
 
