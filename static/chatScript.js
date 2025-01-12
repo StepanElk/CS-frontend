@@ -38,8 +38,10 @@ document.addEventListener("DOMContentLoaded",async () => {
         switch(obj.Type){
             case("text"):
                 drawMessage(obj);
+                break;
             case("event"):
                 drawEvent(obj);
+                break;
         }
         
     });
